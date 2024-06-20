@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import static org.example.ExoBankAccount.metier.Status.*;
 
-public class BankAccount {
+public abstract class BankAccount {
     private Client client;
     private double balance = 0;
     private ArrayList<Operation> operationList;
@@ -17,20 +17,18 @@ public class BankAccount {
         operationList = new ArrayList<>();
     }
 
-    public void operation(Status operationStatus, int amount){
-        int operationNbr = operationList.size();
-
-        Operation currentOperation = new Operation(operationNbr, amount, operationStatus);
-        addOperation(currentOperation);
-
-        if (operationStatus == WITHDRAWAL){
-            amount = -amount;
-        }
-        balance += amount;
-    }
+    public abstract void operation(Status operationStatus, double amount);
 
     public double getBalance() {
         return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public void addToBalance(double amount){
+        setBalance(getBalance() + amount);
     }
 
     public ArrayList<Operation> getOperationList() {
@@ -41,11 +39,15 @@ public class BankAccount {
         operationList.add(currentOperation);
     }
 
+    public Client getClient() {
+        return client;
+    }
+
     @Override
     public String toString() {
-        return "BankAccount{" +
+        return this.getClass().getSimpleName() + "{" +
                 "balance=" + balance +
-                ", client=" + client +
+                ", client=" + client.getSurname() + " " + client.getName() +
                 ", operationList=" + operationList +
                 '}';
     }

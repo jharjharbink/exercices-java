@@ -11,6 +11,7 @@ import static org.example.ExoBankAccount.Menus.*;
 import static org.example.ExoBankAccount.metier.bankAccounts.AccountType.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -88,7 +89,7 @@ public class Ihm {
 
     private void displayBankAccounts(){
 
-        ArrayList<BankAccount> currentClientAccounts = client.getAccounts();
+        List<BankAccount> currentClientAccounts = client.getAccounts();
         if (currentClientAccounts.isEmpty()){
             System.out.println("Vous n'avez pas de comptes");
         } else {
@@ -96,7 +97,7 @@ public class Ihm {
 
             int i = 1;
             for (BankAccount clientBankAccount : client.getAccounts()){
-                System.out.println("\t Compte n°" + i + clientBankAccount) ;
+                System.out.println("\t Compte n°" + i + " " + clientBankAccount) ;
                 i++;
             }
         }
@@ -145,9 +146,9 @@ public class Ihm {
         return currentBankAccount;
     }
 
-    private void performOperation(Status operationStatus, BankAccount bankAccount) throws Exception{
+    public void performOperation(Status operationStatus, BankAccount bankAccount) throws Exception {
         System.out.println("Veuillez choisir un montant de " + getOperationTypeString(operationStatus));
-        int depotAmount = loopChoice(DEPOT_AMOUNT);
+        double depotAmount = loopChoice(DEPOT_AMOUNT);
         bankAccount.operation(operationStatus, depotAmount);
     }
 

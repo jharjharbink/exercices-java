@@ -2,10 +2,10 @@ package org.example.ExoBankAccount.metier;
 
 public class Operation {
     private int operationNbr;
-    private int amount;
+    private double amount;
     private Status status;
 
-    public Operation(int operationNbr, int amount, Status status) {
+    public Operation(int operationNbr, double amount, Status status) {
         this.operationNbr = operationNbr;
         this.amount = amount;
         this.status = status;

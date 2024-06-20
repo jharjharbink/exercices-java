@@ -3,12 +3,13 @@ package org.example.ExoBankAccount.metier;
 import org.example.ExoBankAccount.metier.bankAccounts.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Client {
     private String name;
     private String surname;
     private int id;
-    private ArrayList<BankAccount> accounts;
+    private List<BankAccount> accounts;
     private String phoneNumber;
 
     public Client(String name, String surname, int id, String phoneNumber) {
@@ -19,7 +20,7 @@ public class Client {
         this.accounts = new ArrayList<BankAccount>();
     }
 
-    public ArrayList<BankAccount> getAccounts() {
+    public List<BankAccount> getAccounts() {
         return accounts;
     }
 
@@ -44,5 +45,13 @@ public class Client {
         }
         addBankAccount(newAccount);
         return newAccount;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
     }
 }
