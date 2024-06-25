@@ -41,9 +41,10 @@ public class Requests {
     }
 
     public ResultSet getStudents(Connection connection, int classId) throws SQLException{
-        String request = "SELECT * FROM student ORDER BY id";
+        String request = "SELECT * FROM student";
         if (classId > 0)
             request += " WHERE classNbr=" + classId;
+        request += " ORDER BY id";
 
         Statement statement = connection.createStatement();
         return statement.executeQuery(request);
