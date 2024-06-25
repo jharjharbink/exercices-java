@@ -1,6 +1,6 @@
 package org.example.exo.student;
 
-import org.example.model.Requests;
+import org.example.exo.student.model.Requests;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -105,7 +105,7 @@ public class Ihm {
 
             while(resultSet.next()){
                 System.out.println(
-                        resultSet.getInt("id. ")
+                        resultSet.getInt("id")
                                 + " " + resultSet.getString("name")
                                 + " " + resultSet.getString("surname")
                                 + " " + resultSet.getString("classNbr")

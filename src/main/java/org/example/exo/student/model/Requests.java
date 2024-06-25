@@ -1,7 +1,7 @@
 package org.example.exo.student.model;
 
 import lombok.AllArgsConstructor;
-import org.example.model.tables.Student;
+import org.example.exo.student.model.tables.Student;
 
 import java.sql.*;
 
@@ -43,7 +43,7 @@ public class Requests {
     public ResultSet getStudents(Connection connection, int classId) throws SQLException{
         String request = "SELECT * FROM student ORDER BY id";
         if (classId > 0)
-            request += "WHERE classNbr=" + classId;
+            request += " WHERE classNbr=" + classId;
 
         Statement statement = connection.createStatement();
         return statement.executeQuery(request);
