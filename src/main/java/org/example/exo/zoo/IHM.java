@@ -1,11 +1,9 @@
-package org.example.exo.demoJPA;
+package org.example.exo.zoo;
 
-import javax.persistence.EntityManager;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import static org.example.exo.demoJPA.AnimalSearchPossibility.*;
+import static org.example.exo.zoo.AnimalSearchPossibility.*;
 
 public class IHM {
     Scanner scanner;

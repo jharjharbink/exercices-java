@@ -1,9 +1,9 @@
-package org.example.exo.demoJPA;
+package org.example.exo.zoo;
 
 import javax.persistence.*;
 import java.util.List;
 
-import static org.example.exo.demoJPA.AnimalSearchPossibility.*;
+import static org.example.exo.zoo.AnimalSearchPossibility.*;
 
 public class DatabaseDealer {
     private EntityManager entityManger;

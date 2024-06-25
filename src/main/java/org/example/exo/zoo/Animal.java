@@ -1,4 +1,4 @@
-package org.example.exo.demoJPA;
+package org.example.exo.zoo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

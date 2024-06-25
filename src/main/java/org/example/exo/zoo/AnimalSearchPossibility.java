@@ -1,4 +1,4 @@
-package org.example.exo.demoJPA;
+package org.example.exo.zoo;
 
 public enum AnimalSearchPossibility {
     ID,
