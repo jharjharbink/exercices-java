@@ -79,7 +79,7 @@ public class IHM {
     private void displayAnimal(AnimalSearchPossibility searchChoice){
         List<Animal> animals;
 
-        String parameterChoiceString = getParameterChoiceString(searchChoice);
+        String parameterChoiceString = buildParameterChoiceString(searchChoice);
         System.out.println(parameterChoiceString);
 
         if (searchChoice == ID){
@@ -96,7 +96,7 @@ public class IHM {
     }
 
 
-    private String getParameterChoiceString(AnimalSearchPossibility searchChoice){
+    private String buildParameterChoiceString(AnimalSearchPossibility searchChoice){
 
         String displayString = "Quel est ";
         String suffixString =  "que vous voulez trouver ?";
@@ -104,7 +104,7 @@ public class IHM {
         switch (searchChoice){
             case ID -> displayString += "l'id de l'animal ";
             case NAME -> displayString += "le nom des animaux ";
-            case ALIMENTATION_REGIME -> displayString += "le nom des animaux ";
+            case ALIMENTATION_REGIME -> displayString += "le régime alimentaire des animaux ";
             default -> throw new WrongSearchChoiceException();
         }
 
