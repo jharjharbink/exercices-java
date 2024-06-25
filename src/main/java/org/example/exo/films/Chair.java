@@ -1,4 +1,4 @@
-package org.example;
+package org.example.exo.films;
 
 public class Chair {
     private int legNbr = 4;

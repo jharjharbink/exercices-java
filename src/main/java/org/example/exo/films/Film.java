@@ -1,4 +1,4 @@
-package org.example;
+package org.example.exo.films;
 import java.time.LocalDate;
 
 public class Film {
