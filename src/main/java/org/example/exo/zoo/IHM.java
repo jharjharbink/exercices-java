@@ -21,7 +21,7 @@ public class IHM {
             try{
 
                 System.out.println(displayMainMenu());
-                int userChoiceMainMenu = loopChoice();
+                int userChoiceMainMenu = loopChoice(4);
 
                 switch(userChoiceMainMenu){
                     case 1 -> displayCreateAnimal();
@@ -35,15 +35,15 @@ public class IHM {
         }
     }
 
-    private int loopChoice() throws Exception {
+    private int loopChoice(int choiceNbr){
         int userChoice;
 
         while (true) {
             try {
                 userChoice = Integer.parseInt(scanner.nextLine());
 
-                if (userChoice < 0 || userChoice > 4) {
-                    throw new Exception("Vous devez rentrer un chiffre compris entre 0 et 4.");
+                if (userChoice < 0 || userChoice > choiceNbr) {
+                    throw new Exception("Vous devez rentrer un chiffre compris entre 0 et " + choiceNbr + ".");
                 }
 
             } catch (NumberFormatException e) {
@@ -92,7 +92,8 @@ public class IHM {
             animals = databaseDealer.getAnimals(animalSearchParameter, searchChoice);
         }
 
-        soutAnimals(animals);
+        for (Animal animal : animals)
+            System.out.println(animal);
     }
 
 
@@ -110,11 +111,6 @@ public class IHM {
 
         displayString += suffixString;
         return displayString;
-    }
-
-    private void soutAnimals (List<Animal> animals){
-        for (Animal animal : animals)
-            System.out.println(animal);
     }
 
     private boolean goodBye(){
