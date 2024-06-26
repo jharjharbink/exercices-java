@@ -17,46 +17,34 @@ public class zooDAO {
     }
 
     public <T> List<Animal> getAnimals(T animalParam, AnimalSearchPossibility searchChoice){
-        TypedQuery query = buildTypedQuery(animalParam, searchChoice);
+        String searchParam;
+        String queryString = "select a from Animal a WHERE ";
+
+        switch (searchChoice){
+            case ID:
+                searchParam = "id";
+                queryString += "a.id = :";
+                break;
+            case NAME:
+                searchParam = "name";
+                queryString += "a.name = :";
+                break;
+            case ALIMENTATION_REGIME:
+                searchParam = "alimentationRegime";
+                queryString += "a.alimentationRegime = :";
+                break;
+            default:
+                throw new WrongSearchChoiceException();
+        }
+        queryString += searchParam;
+
+        TypedQuery query = entityManger.createQuery(queryString, Animal.class);
+
+        query.setParameter(searchParam, animalParam);
+
         return query.getResultList();
     }
 
-    private <T> TypedQuery buildTypedQuery(T animalParam, AnimalSearchPossibility searchChoice){
-        TypedQuery query = getTypedQuery(searchChoice);
-        query = setParameter(animalParam, query, searchChoice);
-        return query;
-    }
-
-    private TypedQuery getTypedQuery(AnimalSearchPossibility searchChoice){
-        String queryString = AnimalQueryStringBuilder(searchChoice);
-        return entityManger.createQuery(queryString, Animal.class);
-    }
-
-    private <T> TypedQuery setParameter(T animalAttribute, TypedQuery query, AnimalSearchPossibility searchChoice){
-        String searchParam = getSearchParam(searchChoice);
-        query.setParameter(searchParam, animalAttribute);
-        return query;
-    }
-
-    private String AnimalQueryStringBuilder(AnimalSearchPossibility searchChoice){
-        String query = "select a from Animal a WHERE ";
-        switch (searchChoice){
-            case ID -> query += "a.id = :id";
-            case NAME -> query += "a.name = :name";
-            case ALIMENTATION_REGIME -> query += "a.alimentationRegime = :alimentationRegime";
-            default -> throw new WrongSearchChoiceException();
-        }
-        return query;
-    }
-
-    private String getSearchParam(AnimalSearchPossibility searchChoice){
-        switch(searchChoice){
-            case ID: return "id";
-            case NAME: return "name";
-            case ALIMENTATION_REGIME: return "alimentationRegime";
-            default: throw new WrongSearchChoiceException();
-        }
-    }
 
     public EntityManager getEntityManger() {
         return entityManger;
