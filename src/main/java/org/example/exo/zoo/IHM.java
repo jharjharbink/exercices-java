@@ -7,9 +7,9 @@ import static org.example.exo.zoo.AnimalSearchPossibility.*;
 
 public class IHM {
     Scanner scanner;
-    DatabaseDealer databaseDealer;
+    zooDAO databaseDealer;
 
-    public IHM(DatabaseDealer databaseDealer) {
+    public IHM(zooDAO databaseDealer) {
         this.scanner = new Scanner(System.in);
         this.databaseDealer = databaseDealer;
     }
@@ -31,7 +31,9 @@ public class IHM {
                     case 0 -> continueLoop = goodBye();
                     default -> throw new Exception("Unknown choice by user");
                 }
-            } catch (Exception e){}
+            } catch (Exception e){
+                System.out.println(e);
+            }
         }
     }
 
@@ -47,11 +49,11 @@ public class IHM {
                 }
 
             } catch (NumberFormatException e) {
-                System.out.print("Saisie incorrecte ! (pas un entier) ");
+                System.out.print("Saisie incorrecte ! (pas un entier)");
                 continue;
 
             } catch (Exception e) {
-                System.out.print("Saisie incorrecte ! (pas dans les choix disponibles) ");
+                System.out.print("Saisie incorrecte ! (pas dans les choix disponibles)");
                 continue;
             }
             break;
@@ -77,20 +79,18 @@ public class IHM {
     }
 
     private void displayAnimal(AnimalSearchPossibility searchChoice){
-        List<Animal> animals;
 
         String parameterChoiceString = buildParameterChoiceString(searchChoice);
         System.out.println(parameterChoiceString);
 
-        if (searchChoice == ID){
-            int animalSearchParameter = scanner.nextInt();
+        Object animalSearchParameter;
+        if (searchChoice == ID) {
+            animalSearchParameter = scanner.nextLong();
             scanner.nextLine();
-            animals = databaseDealer.getAnimal(animalSearchParameter);
+        } else
+            animalSearchParameter = scanner.nextLine();
 
-        } else {
-            String animalSearchParameter = scanner.nextLine();
-            animals = databaseDealer.getAnimals(animalSearchParameter, searchChoice);
-        }
+        List<Animal> animals = databaseDealer.getAnimals(animalSearchParameter, searchChoice);
 
         for (Animal animal : animals)
             System.out.println(animal);
