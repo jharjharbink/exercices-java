@@ -1,4 +1,4 @@
-package org.example.exo.billeterie.utill.exceptions;
+package org.example.exo.billeterie.util.exceptions;
 
 public class WrongSearchChoiceException extends RuntimeException{
     public WrongSearchChoiceException(String message) {

@@ -1,4 +1,4 @@
-package org.example.exo.billeterie.utill;
+package org.example.exo.billeterie.ihm;
 
 public enum MenuType {
     MAIN_MENU,
