@@ -15,6 +15,7 @@ import static org.example.exo.billeterie.db.DatabaseAction.READ_BY_ID_ACTION;
 import static org.example.exo.billeterie.db.DatabaseAction.UPDATE_ACTION;
 
 public class ClientInteraction extends BaseInteraction {
+
     private final ClientRepository clientRepository;
 
     public ClientInteraction(Scanner scanner) {

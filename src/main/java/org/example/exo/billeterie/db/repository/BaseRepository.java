@@ -12,7 +12,7 @@ import java.util.List;
 public abstract class BaseRepository<T> {
     protected EntityManager em;
 
-    public <T> boolean create(T item){
+    public boolean create(T item){
         try{
             em.getTransaction().begin();
             em.persist(item);
@@ -25,18 +25,18 @@ public abstract class BaseRepository<T> {
         }
     }
 
-    public <T> T selectById(Class<T> classe, long id){
+    public T selectById(Class<T> classe, long id){
         return em.find(classe,id);
     }
 
-    public <T> List<T> selectAll(Class<T> classe){
+    public List<T> selectAll(Class<T> classe){
         String className = classe.getSimpleName();
         String queryString = "select a from " + className + " a";
         TypedQuery query = em.createQuery(queryString, classe);
         return query.getResultList();
     }
 
-    public <T> boolean update(T item){
+    public boolean update(T item){
         try{
             em.getTransaction().begin();
             em.merge(item);
@@ -49,7 +49,7 @@ public abstract class BaseRepository<T> {
         }
     }
 
-    public <T> boolean delete(T item){
+    public boolean delete(T item){
         try{
             em.getTransaction().begin();
             em.remove(item);
