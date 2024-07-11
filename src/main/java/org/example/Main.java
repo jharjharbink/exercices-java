@@ -8,7 +8,7 @@ import org.example.db.model.article.Clothe;
 import org.example.db.model.article.Electronic;
 import org.example.db.model.article.Food;
 import org.example.ihm.Ihm;
-import org.example.ihm.MenuType;
+import org.example.ihm.enums.navigation.MenuType;
 import org.example.util.SessionfactorySingleton;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,6 +20,7 @@ import static org.example.util.DatesDealer.getTodaysDate;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+
         Ihm.start(MenuType.MAIN_MENU);
     }
 

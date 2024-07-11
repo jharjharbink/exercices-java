@@ -2,18 +2,16 @@ package org.example.ihm.menu;
 
 import org.example.exceptions.ExitProgramException;
 import org.example.exceptions.WrongSearchChoiceException;
-import org.example.ihm.BackMenuOptions;
+import org.example.ihm.enums.navigation.BackMenuOptions;
+import org.example.ihm.enums.navigation.MenuType;
 
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
-import static org.example.ihm.BackMenuOptions.CLOSE_PROGRAM;
-import static org.example.ihm.Ihm.start;
-import static org.example.ihm.MenuType.*;
+import static org.example.ihm.enums.navigation.BackMenuOptions.CLOSE_PROGRAM;
 
-public class MainMenu extends BaseMenu {
+public class MainMenu extends BaseMenu implements Menus{
 
     private final static List<String> menuElements = Arrays.asList("Principal",
             "Gestion de l'inventaire",
@@ -27,14 +25,14 @@ public class MainMenu extends BaseMenu {
         super(menuElements, backMenuOption);
     }
 
-    public static void menuOptions(int userMenuChoice){
-        switch (userMenuChoice) {
-            case 1 -> start(INVENTORY_GESTION_MENU);
-            case 2 -> start(SALE_GESTION_MENU);
-            case 3 -> start(CLIENT_GESTION_MENU);
-            case 4 -> start(SALE_REPORT_AND_ANALYSIS_MENU);
+    public static MenuType menuOptions(int userMenuChoice){
+        return switch (userMenuChoice) {
+            case 1 -> MenuType.ARTICLE_GESTION_MENU;
+            case 2 -> MenuType.SALE_GESTION_MENU;
+            case 3 -> MenuType.CLIENT_GESTION_MENU;
+            case 4 -> MenuType.SALE_REPORT_AND_ANALYSIS_MENU;
             case 0 -> throw new ExitProgramException();
             default -> throw new WrongSearchChoiceException("Unknown choice by user with menuType " + MainMenu.class.getSimpleName());
-        }
+        };
     }
 }

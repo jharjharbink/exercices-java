@@ -10,13 +10,13 @@ public class ArticleRepository extends BaseRepository<Article>{
         super();
     }
 
-    public List<Article> selectArticleByName(String articleName){
+    public List<Article> selectArticleByDescription(String articleDescription){
         List<Article> articleList;
         Query<Article> sellQuery;
 
         session = sessionFactory.openSession();
-        sellQuery = session.createQuery("from Article where name = :articleName", Article.class);
-        sellQuery.setParameter("articleName", articleName);
+        sellQuery = session.createQuery("from Article where description = :articleDescription", Article.class);
+        sellQuery.setParameter("articleDescription", articleDescription);
 
         articleList = sellQuery.list();
         session.close();

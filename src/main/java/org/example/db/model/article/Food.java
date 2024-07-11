@@ -23,4 +23,16 @@ public class Food extends Article {
         super(description, price, stockQuantity);
         this.expirationDate = expirationDate;
     }
+
+    @Override
+    public String toString() {
+        return "Clothe{" +
+                "id=" + this.getId() +
+                ", description=" + this.getDescription() +
+                ", price=" + this.getPrice() +
+                ", stockQuantity=" + this.getStockQuantity() +
+                ", expirationDate=" + expirationDate +
+                '}';
+    }
+
 }

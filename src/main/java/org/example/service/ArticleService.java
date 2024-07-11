@@ -2,16 +2,17 @@ package org.example.service;
 
 import org.example.db.ClotheCategory;
 import org.example.db.Size;
-import org.example.db.model.Client;
 import org.example.db.model.article.Article;
 import org.example.db.model.article.Clothe;
 import org.example.db.model.article.Electronic;
 import org.example.db.model.article.Food;
 import org.example.db.repository.ArticleRepository;
 import org.example.exceptions.NotFoundException;
-import org.example.ihm.ClotheUpdateChoices;
-import org.example.ihm.ElectronicUpdateChoice;
-import org.example.ihm.FoodUpdateChoice;
+import org.example.ihm.enums.navigation.StockAvailability;
+import org.example.ihm.enums.update.article.ArticleUpdateChoice;
+import org.example.ihm.enums.update.article.ClotheUpdateChoices;
+import org.example.ihm.enums.update.article.ElectronicUpdateChoice;
+import org.example.ihm.enums.update.article.FoodUpdateChoice;
 
 import java.util.Date;
 import java.util.List;
@@ -58,7 +59,7 @@ public class ArticleService {
         return articleRepository.create(food);
     }
 
-    public <T> boolean updateClothe(long articleId, ClotheUpdateChoices itemToChange, T valueToChange){
+    public <T> boolean updateClothe(long articleId, ArticleUpdateChoice itemToChange, T valueToChange){
         Article article =  articleRepository.selectById(Article.class, articleId);
         if (article instanceof Clothe clothe){
             switch(itemToChange){
@@ -67,6 +68,7 @@ public class ArticleService {
                 case ClotheUpdateChoices.STOCK_QUANTITY -> clothe.setStockQuantity((int) valueToChange);
                 case ClotheUpdateChoices.CATEGORY -> clothe.setCategory((ClotheCategory) valueToChange);
                 case ClotheUpdateChoices.SIZE -> clothe.setSize((Size) valueToChange);
+                default -> throw new IllegalStateException("Unexpected value: " + itemToChange);
             }
             return articleRepository.update(clothe);
         }
@@ -74,7 +76,7 @@ public class ArticleService {
 
     }
 
-    public <T> boolean updateElectronic(long articleId, ElectronicUpdateChoice itemToChange, T valueToChange){
+    public <T> boolean updateElectronic(long articleId, ArticleUpdateChoice itemToChange, T valueToChange){
         Article article = articleRepository.selectById(Article.class, articleId);
 
         if (article instanceof Electronic electronic) {
@@ -83,13 +85,14 @@ public class ArticleService {
                 case ElectronicUpdateChoice.PRICE -> electronic.setPrice((double) valueToChange);
                 case ElectronicUpdateChoice.STOCK_QUANTITY -> electronic.setStockQuantity((int) valueToChange);
                 case ElectronicUpdateChoice.BATTERY_MAX_CAPACITY -> electronic.setBatteryMaxCapacity((int) valueToChange);
+                default -> throw new IllegalStateException("Unexpected value: " + itemToChange);
             }
             return articleRepository.update(electronic);
         }
         return false; //TODO make exception and catch it in UserInput
     }
 
-    public <T> boolean updateFood(long articleId, FoodUpdateChoice itemToChange, T valueToChange){
+    public <T> boolean updateFood(long articleId, ArticleUpdateChoice itemToChange, T valueToChange){
         Article article = articleRepository.selectById(Article.class, articleId);
 
         if (article instanceof Food food) {
@@ -98,6 +101,7 @@ public class ArticleService {
                 case FoodUpdateChoice.PRICE -> food.setPrice((double) valueToChange);
                 case FoodUpdateChoice.STOCK_QUANTITY -> food.setStockQuantity((int) valueToChange);
                 case FoodUpdateChoice.EXPIRATION_DATE -> food.setExpirationDate((Date) valueToChange);
+                default -> throw new IllegalStateException("Unexpected value: " + itemToChange);
             }
             return articleRepository.update(food);
         }
@@ -108,7 +112,7 @@ public class ArticleService {
         Article article = articleRepository.selectById(Article.class, articleId);
         int newStockQuantity = article.getStockQuantity() + restockQuantity;
         article.setStockQuantity(newStockQuantity);
-        return true;
+        return articleRepository.update(article);
     }
 
     public boolean delete (long id) throws NotFoundException {
@@ -132,7 +136,32 @@ public class ArticleService {
         return articleRepository.selectAll(Article.class);
     }
 
-    public List<Article> selectByName(String name){
-        return articleRepository.selectArticleByName(name);
+    public List<Article> selectByDescription(String name){
+        return articleRepository.selectArticleByDescription(name);
+    }
+
+    public StockAvailability getStockAvailability(){
+        List<Article> allArticles = selectAll();
+        return setStockAvailability(allArticles);
+    }
+
+    private StockAvailability setStockAvailability(List<Article> articleList){
+        if (articleList == null)
+            return StockAvailability.NULL_STOCK;
+
+        if (articleList.isEmpty())
+            return StockAvailability.EMPTY_STOCK;
+
+        if (allArticlesZeroStock(articleList))
+            return StockAvailability.ZERO_QUANTITY_STOCK;
+
+        return StockAvailability.AVAILABLE_STOCK;
+    }
+
+    private boolean allArticlesZeroStock(List<Article> articles) {
+        int totalStock = 0;
+        for (Article article: articles)
+            totalStock += article.getStockQuantity();
+        return totalStock > 0;
     }
 }

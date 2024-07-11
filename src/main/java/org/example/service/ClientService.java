@@ -3,7 +3,7 @@ package org.example.service;
 import org.example.db.model.Client;
 import org.example.db.repository.ClientRepository;
 import org.example.exceptions.NotFoundException;
-import org.example.ihm.ClientUpdateChoices;
+import org.example.ihm.enums.update.client.ClientUpdateChoices;
 
 import java.util.List;
 

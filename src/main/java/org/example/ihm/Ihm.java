@@ -1,11 +1,23 @@
 package org.example.ihm;
 
 import org.example.exceptions.*;
+import org.example.ihm.enums.navigation.MenuType;
 import org.example.ihm.menu.*;
+import org.example.ihm.menu.article.*;
+import org.example.ihm.menu.article.update.ArticleUpdateMenu;
+import org.example.ihm.menu.article.update.ClotheUpdateMenu;
+import org.example.ihm.menu.article.update.ElectronicUpdateMenu;
+import org.example.ihm.menu.article.update.FoodUpdateMenu;
+import org.example.ihm.menu.client.ClientGestionMenu;
+import org.example.ihm.menu.client.ClientUpdateMenu;
+import org.example.ihm.menu.client.ConsultClientMenu;
+import org.example.ihm.menu.sale.SaleMenu;
+import org.example.ihm.menu.reports.SaleByPeriodMenu;
+import org.example.ihm.menu.sale.SaleGestionMenu;
+import org.example.ihm.menu.reports.SaleReportAndAnalysisMenu;
 
 import java.util.Scanner;
 
-import static org.example.ihm.MenuType.*;
 import static org.example.ihm.menu.BaseMenu.menuOptionDispatcher;
 
 public class Ihm {
@@ -15,31 +27,35 @@ public class Ihm {
     public static void start(MenuType menuType) {
         while (true) {
             try {
-                displayMenuChoice(menuType);
-            } catch (ReturnToMainMenuException | WrongSearchChoiceException e) {
+                menuType = displayMenuChoice(menuType);
+            }
+            /*
+            catch (ReturnToMainMenuException | WrongSearchChoiceException e) {
                 menuType = MAIN_MENU;
             } catch (ReturnToInventoryGestionMenuException e) {
-                menuType = INVENTORY_GESTION_MENU;
+                menuType = ARTICLE_GESTION_MENU;
             } catch (ReturnToConsultArticleMenuException e){
                 menuType = ARTICLE_CONSULT_MENU;
             } catch (ReturnToSaleGestionMenu e){
                 menuType = SALE_GESTION_MENU;
             } catch (ReturnToSaleReportAndAnalysisMenu e){
                 menuType = SALE_REPORT_AND_ANALYSIS_MENU;
-            } catch (ExitProgramException e) {
+            }
+             */
+            catch (ExitProgramException e) {
                 scanner.close();
-                break;
+                return;
             } catch (Exception e) {
                 System.out.println(e);
                 scanner.close();
-                break;
+                return;
             }
         }
     }
 
-    private static void displayMenuChoice(MenuType menuType) throws ReturnToMainMenuException, WrongSearchChoiceException, ExitProgramException {
+    private static MenuType displayMenuChoice(MenuType menuType) throws ReturnToMainMenuException, WrongSearchChoiceException, ExitProgramException {
         int userMenuChoice = askUserMenuChoice(menuType);
-        menuOptionDispatcher(menuType, userMenuChoice, scanner);
+        return menuOptionDispatcher(menuType, userMenuChoice, scanner);
     }
 
     public static int askUserMenuChoice(MenuType menuType){
@@ -50,11 +66,11 @@ public class Ihm {
     private static void displayMenu(MenuType menuType){
         switch(menuType){
             case MAIN_MENU -> new MainMenu().display();
-            case INVENTORY_GESTION_MENU -> new ArticleGestionMenu().display();
+            case ARTICLE_GESTION_MENU -> new ArticleGestionMenu().display();
             case ARTICLE_CREATION_MENU -> new CreateArticleMenu().display();
             case ARTICLE_CONSULT_MENU -> new ConsultArticleMenu().display();
             case SALE_GESTION_MENU -> new SaleGestionMenu().display();
-            case MAKE_SALE_MENU -> new MakeSaleMenu().display();
+            case SALE_MENU -> new SaleMenu().display();
             case CLIENT_GESTION_MENU -> new ClientGestionMenu().display();
             case CLIENT_CONSULT_MENU -> new ConsultClientMenu().display();
             case SALE_REPORT_AND_ANALYSIS_MENU -> new SaleReportAndAnalysisMenu().display();
@@ -73,11 +89,11 @@ public class Ihm {
     private static int getLimitMaxChoice(MenuType menuType){    // TODO put in InputControl class
         return switch (menuType){
             case MAIN_MENU -> MainMenu.menuLength;
-            case INVENTORY_GESTION_MENU -> ArticleGestionMenu.menuLength;
+            case ARTICLE_GESTION_MENU -> ArticleGestionMenu.menuLength;
             case ARTICLE_CREATION_MENU -> CreateArticleMenu.menuLength;
             case ARTICLE_CONSULT_MENU -> ConsultArticleMenu.menuLength;
             case SALE_GESTION_MENU -> SaleGestionMenu.menuLength;
-            case MAKE_SALE_MENU -> MakeSaleMenu.menuLength;
+            case SALE_MENU -> SaleMenu.menuLength;
             case CLIENT_GESTION_MENU -> ClientGestionMenu.menuLength;
             case CLIENT_CONSULT_MENU -> ConsultClientMenu.menuLength;
             case SALE_REPORT_AND_ANALYSIS_MENU -> SaleReportAndAnalysisMenu.menuLength;

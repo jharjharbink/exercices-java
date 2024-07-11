@@ -24,4 +24,16 @@ public class Clothe extends Article {
         this.category = category;
         this.size = size;
     }
+
+    @Override
+    public String toString() {
+        return "Clothe{" +
+                "id=" + this.getId() +
+                ", description=" + this.getDescription() +
+                ", price=" + this.getPrice() +
+                ", stockQuantity=" + this.getStockQuantity() +
+                ", category=" + category +
+                ", size=" + size +
+                '}';
+    }
 }

@@ -23,4 +23,16 @@ public class Electronic extends Article {
         super(description, price, stockQuantity);
         this.batteryMaxCapacity = batteryMaxCapacity;
     }
+
+    @Override
+    public String toString() {
+        return "Clothe{" +
+                "id=" + this.getId() +
+                ", description=" + this.getDescription() +
+                ", price=" + this.getPrice() +
+                ", stockQuantity=" + this.getStockQuantity() +
+                ", batteryMaxCapacity=" + batteryMaxCapacity +
+                '}';
+    }
+
 }
