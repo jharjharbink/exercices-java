@@ -86,7 +86,7 @@ public abstract class BaseMenu implements Menus{
             case CLOSE_PROGRAM -> prefixString + "Fermer le programme\n";
             case RETURN_TO_MAIN_MENU -> prefixString + "Retour Au menu Principal\n";
             case RETURN_TO_ARTICLE_GESTION_MENU -> prefixString + "Retour à la gestion d'inventaire\n";
-            case RETURN_TO_SALE_GESTION_MENU -> prefixString + "Cloturer Vente\n";
+            case RETURN_TO_SALE_GESTION_MENU -> prefixString + "Abbandonner Vente\n";
             case RETURN_TO_CLIENT_GESTION_MENU -> prefixString + "Retour à la gestion Client\n";
             case RETURN_TO_INVENTORY_CONSULT_MENU -> prefixString + "Retour à la consultation d'articles";
             case RETURN_TO_SALE_REPORT_AND_ANALYSIS_MENU -> prefixString + "Retour aux rapports et analyses de ventes";

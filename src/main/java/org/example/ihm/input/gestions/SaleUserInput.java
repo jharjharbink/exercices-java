@@ -18,16 +18,20 @@ import org.example.service.SaleService;
 import java.util.*;
 
 public class SaleUserInput extends BaseUserInput{
+    ArticleService articleService;
+    SaleService saleService;
 
     public SaleUserInput(Scanner scanner) {
         super(scanner);
+        articleService = new ArticleService();
+        saleService = new SaleService();
     }
 
     public MenuType beginSale() {
-        ArticleService articleService = new ArticleService();
-        SaleService saleService = new SaleService();
-
         if (stockIsEmpty())
+            return MenuType.SALE_GESTION_MENU;
+
+        if (clientsIsEmpty())
             return MenuType.SALE_GESTION_MENU;
 
         Map<Long, Integer> articleIdAndDeliveredQuantity = new HashMap<>();  // In order to set stockQuantity once transaction finished
@@ -42,19 +46,15 @@ public class SaleUserInput extends BaseUserInput{
 
             if (articleListIsEmpty(chosenArticleList))
                 continue;
-
             Article chosenArticle = getArticle(chosenArticleList);
 
             int askedQuantity = askInt("Combien voulez vous en acheter ?");
             int currentStockQuantity = chosenArticle.getStockQuantity();
-
             if (askedQuantity > currentStockQuantity)
                 System.out.println("Nombre d'article insuffisant, vous en avez demandé " + askedQuantity + " mais vous n'en aurez que " + currentStockQuantity);
 
             int deliveredQuantity = saleService.getdeliveredQuantity(currentStockQuantity, askedQuantity);
-
             articleIdAndDeliveredQuantity.put(chosenArticle.getId(), deliveredQuantity);
-
             sale = saleService.addArticleSale(sale, chosenArticle, deliveredQuantity);
 
             int userChoice = Ihm.askUserMenuChoice(MenuType.SALE_MENU);
@@ -75,17 +75,28 @@ public class SaleUserInput extends BaseUserInput{
         return MenuType.SALE_GESTION_MENU;
     }
 
+    private boolean clientsIsEmpty() {
+        ClientService clientService = new ClientService();
+        List<Client> allClients = clientService.selectAll();
+        if (allClients == null || allClients.isEmpty()) {
+            System.out.println("Aucun client enreistré en BDD");
+            return true;
+        }
+        return false;
+
+    }
+
     private boolean stockIsEmpty(){
         StockAvailability stockAvailability = new ArticleService().getStockAvailability();
         switch(stockAvailability){
             case StockAvailability.AVAILABLE_STOCK:
-                return true;
+                return false;
             case StockAvailability.NULL_STOCK, StockAvailability.EMPTY_STOCK:
                 System.out.println("Aucun article disponible, veuillez rentrer des articles dans l'inventaire");
-                return false;
+                return true;
             case StockAvailability.ZERO_QUANTITY_STOCK:
                 System.out.println("Aucun article disponible, veuillez restocker des articles dans l'inventaire");
-                return false;
+                return true;
             default: throw new WrongSearchChoiceException("Wrong search choice exception in stockAvailable: " + stockAvailability);
         }
     }
